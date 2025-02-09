@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffd1d1;
+    text-align: center;
+    padding: 20px;
+}
+
+.admin-container {
+    background: rgb(255, 178, 178);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    margin: auto;
+}
+
+/* Button Styling */
+button {
+    background-color: #ff6b6b; /* Soft red */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effect */
+button:hover {
+    background-color: #ff4d4d; /* Slightly darker red */
+    transform: scale(1.05);
+}
+
+/* Click Effect */
+button:active {
+    transform: scale(0.95);
+}
+
+/* Color Box Styling */
+#color-box {
+    width: 100px;
+    height: 100px;
+    margin: 10px auto;
+    border-radius: 50%;
+}
+
+

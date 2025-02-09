@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Results 🔑</title>
+    <link rel="stylesheet" href="Admins_page.css">
+</head>
+<body>
+    <div class="admin-container" id="pin-container">
+        <h1>Enter Admin PIN 🔑</h1>
+        <input type="password" id="pin-input" placeholder="Enter PIN">
+        <button onclick="checkPin()">Access Admin Panel</button>
+        <p id="error-message" style="color: red;"></p>
+    </div>
+
+    <div class="admin-container" id="results-container" style="display: none;">
+        <h1>Admin Panel - Quiz Results 📊</h1>
+        <p id="final-color"></p>
+        <div id="color-box"></div>
+        <h2>Selected Answers:</h2>
+        <ul id="answer-list"></ul>
+    </div>
+
+    <script>
+        const correctPin = "1234"; // Change this to your preferred PIN
+
+        function checkPin() {
+            const enteredPin = document.getElementById("pin-input").value;
+            if (enteredPin === correctPin) {
+                document.getElementById("pin-container").style.display = "none";
+                document.getElementById("results-container").style.display = "block";
+                loadResults();
+            } else {
+                document.getElementById("error-message").textContent = "Incorrect PIN! Access Denied.";
+            }
+        }
+
+        function loadResults() {
+            const finalColor = localStorage.getItem("finalColor");
+            const userAnswers = JSON.parse(localStorage.getItem("userAnswers"));
+
+            // Convert RGB color code to color name
+            const colorName = getClosestColorName(finalColor);
+
+            document.getElementById("final-color").textContent = `Final Color: ${colorName} (${finalColor})`;
+            document.getElementById("color-box").style.backgroundColor = finalColor;
+
+            const answerList = document.getElementById("answer-list");
+            userAnswers.forEach(answer => {
+                let listItem = document.createElement("li");
+                listItem.textContent = answer;
+                answerList.appendChild(listItem);
+            });
+        }
+
+        function getClosestColorName(rgbColor) {
+            if (!rgbColor) return "Unknown Color"; // Handle null/undefined values
+
+            // Extract RGB values from "rgb(r, g, b)"
+            const match = rgbColor.match(/\d+/g);
+            if (!match) return "Unknown Color";
+
+            const [r, g, b] = match.map(Number);
+
+            const colorNames = {
+                "Red": [255, 0, 0],
+                "Dark Red": [139, 0, 0],
+                "Orange": [255, 165, 0],
+                "Dark Orange": [255, 140, 0],
+                "Yellow": [255, 255, 0],
+                "Gold": [255, 215, 0],
+                "Green": [0, 255, 0],
+                "Dark Green": [0, 100, 0],
+                "Lime Green": [50, 205, 50],
+                "Teal": [0, 128, 128],
+                "Cyan": [0, 255, 255],
+                "Sky Blue": [135, 206, 235],
+                "Royal Blue": [65, 105, 225],
+                "Blue": [0, 0, 255],
+                "Navy Blue": [0, 0, 128],
+                "Purple": [128, 0, 128],
+                "Magenta": [255, 0, 255],
+                "Pink": [255, 192, 203],
+                "Hot Pink": [255, 105, 180],
+                "Brown": [165, 42, 42],
+                "Beige": [245, 245, 220],
+                "Black": [0, 0, 0],
+                "Gray": [128, 128, 128],
+                "Dark Gray": [169, 169, 169],
+                "White": [255, 255, 255]
+            };
+
+            let closestColor = "Unknown Color";
+            let smallestDistance = Infinity;
+
+            for (const [name, [cr, cg, cb]] of Object.entries(colorNames)) {
+                const distance = Math.sqrt(
+                    Math.pow(r - cr, 2) + Math.pow(g - cg, 2) + Math.pow(b - cb, 2)
+                );
+
+                if (distance < smallestDistance) {
+                    smallestDistance = distance;
+                    closestColor = name;
+                }
+            }
+
+            return closestColor;
+        }
+    </script>
+</body>
+</html>
